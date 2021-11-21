@@ -115,7 +115,7 @@ string ptos(const double poly[])
 			if(poly[deg +1] > 0)
 				sout << " + " << poly[deg + 1];
 			else
-				sout << " - " << poly[deg + 1];
+				sout << " - " << -1*poly[deg + 1];
 		}
 	}
 	return sout.str();
@@ -200,6 +200,7 @@ int main()
 		if(coeff == 0 && deg > 0)
 		{
 			cout << "Error: Degree > 0 so the coefficient of the highest order term cannot be 0." << endl;
+			return 0;
 		}
 		else
 		{
@@ -215,18 +216,18 @@ int main()
 	cin >> x;
 	cout << endl;
 
-//	double* fPrime = differentiate(poly);
-//	double* fTwoPrime = differentiate(fPrime);
+	double* fPrime = differentiate(poly);
+	double* fTwoPrime = differentiate(fPrime);
 	cout << "f(x) = " << ptos(poly) << endl;
 	cout << "f(" << x << ") = " << eval(poly, x) << endl;
 	cout << endl;
 
-//	cout << "f'(x) = " << ptos(fPrime) << endl;
-//	cout << "f'(" << x << ") = " << eval(fPrime, x) << endl;
-//	cout << endl;
+	cout << "f'(x) = " << ptos(fPrime) << endl;
+	cout << "f'(" << x << ") = " << eval(fPrime, x) << endl;
+	cout << endl;
 
-//	cout << "f''(x) = " << ptos(fTwoPrime) << endl;
-//	cout << "f''(" << x << ") = " << eval(fTwoPrime, x) << endl;
-//	cout << endl;
+	cout << "f''(x) = " << ptos(fTwoPrime) << endl;
+	cout << "f''(" << x << ") = " << eval(fTwoPrime, x) << endl;
+	cout << endl;
 	return 0;
 }
