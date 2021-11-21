@@ -1,7 +1,7 @@
 /**
 * This program will use dynamically allocated arrays to create and display a polynomial as well as
 * display the polynomials derivative and second derivative. The program will be also be able to evaluate
-* the function and the first and second derivtive at a given number.
+* the function and the first and second derivative at a given number.
 * @author Mitchell Stephany
 * <pre>
 * Date: November 20, 2021
@@ -156,16 +156,34 @@ double eval(const double poly[], double x)
 */
 double* differentiate(const double poly[])
 {
-	double* deriv, deg;
+	double* deriv; int power;
+	int deg = poly[0];
+
 	if(deg == 0)
 	{
 		deriv = new double[2];
+		deriv[0] = 0;
+		deriv[1] = 0;
+		return deriv;
 	}
+	else
+	{
+		int deg = (int) poly[0];
+		deriv = new double[deg + 1];
+		power = deg;
+		deriv[0] = deg -1;
+	}
+	for(int i = 1; i <= deg; i++)
+	{
+		deriv[i] = power * poly[i];
+		power = power - 1;
+	}
+	return deriv;
 }
 
 int main()
 {
-	double deg, x;
+	double x; int deg;
 	cout << "Enter the degree of the polynomial -> ";
 	cin >> deg;
 	if(deg < 0)
@@ -195,5 +213,9 @@ int main()
 	}
 	cout << "Enter x at which f(x), f'(x), and f''(x) will be evaluated -> ";
 	cin >> x;
+	cout << "f(x) = " << ptos(poly[deg + 2]));
+	cout << "f(" << x << ") = " << eval(poly, x);
+	double fPrime = differentiate(poly);
+	cout << fPrime << endl;
 	return 0;
 }
