@@ -69,53 +69,53 @@ string ptos(const double poly[])
 		{
 			if(poly[2] > 0)
 			{
-				sout << "+" << poly[2];
+				sout << " + " << poly[2];
 			}
 			else
-				sout << "-" << -1*poly[2];
+				sout << " - " << -1*poly[2];
 		}
 	}
 	else
 	{
-		if(poly[2] == -1)
+		if(poly[1] == -1)
 			sout << "-x^" << deg;
-		else if(poly[2] == 1)
+		else if(poly[1] == 1)
 			sout << "x^" << deg;
 		else
-			sout << poly[2] << "x^" << deg;
-		int power = deg -1;
+			sout << poly[1] << "x^" << deg;
+		int power = deg - 1;
 		for(int i = 2;i <= deg - 1; i++)
 		{
 			if(poly[i] != 0)
 			{
 				if(poly[i] == 1)
-					sout << "+x^" << power;
+					sout << " + x^" << power;
 				else if(poly[i] == -1)
-					sout << "-x^" << power;
+					sout << " - x^" << power;
 				else if(poly[i] > 1)
-					sout << "+" << poly[i] << "x^" << power;
+					sout << " + " << poly[i] << "x^" << power;
 				else
-					sout << "-" << -1*poly[i] << "x^" << power;
+					sout << " - " << -1*poly[i] << "x^" << power;
 			}
 			power = power - 1;
 		}
 		if(poly[deg] != 0)
 		{
 			if(poly[deg] == 1)
-				sout << "+x";
+				sout << " + x";
 			else if(poly[deg] == -1)
-				sout << "-x";
+				sout << " - x";
 			else if(poly[deg] > 1)
-				sout << "+" << poly[deg] << "x";
+				sout << " + " << poly[deg] << "x";
 			else
-				sout << "-" << -1*poly[deg] << "x";
+				sout << " - " << -1*poly[deg] << "x";
 		}
 		if(poly[deg + 1] != 0)
 		{
 			if(poly[deg +1] > 0)
-				sout << "+" << poly[deg + 1];
+				sout << " + " << poly[deg + 1];
 			else
-				sout << "-" << poly[deg + 1];
+				sout << " - " << poly[deg + 1];
 		}
 	}
 	return sout.str();
@@ -132,7 +132,7 @@ string ptos(const double poly[])
 double eval(const double poly[], double x)
 {
 	double sum, n = poly[0];
-	for(int i = 1; i < n + 1; i++)
+	for(int i = 1; i <= n + 1; i++)
 	{
 		sum = sum * x + poly[i];
 	}
@@ -161,22 +161,22 @@ double* differentiate(const double poly[])
 
 	if(deg == 0)
 	{
-		deriv = new double[2];
+		double* deriv = new double[2];
 		deriv[0] = 0;
 		deriv[1] = 0;
 		return deriv;
 	}
 	else
 	{
-		int deg = (int) poly[0];
 		deriv = new double[deg + 1];
 		power = deg;
-		deriv[0] = deg -1;
-	}
-	for(int i = 1; i <= deg; i++)
-	{
-		deriv[i] = power * poly[i];
-		power = power - 1;
+		deriv[0] = deg - 1;
+
+		for(int i = 1; i <= deg; i++)
+		{
+			deriv[i] = power * poly[i];
+			power = power - 1;
+		}
 	}
 	return deriv;
 }
@@ -186,6 +186,7 @@ int main()
 	double x; int deg;
 	cout << "Enter the degree of the polynomial -> ";
 	cin >> deg;
+	double* poly = new double[deg + 2];
 	if(deg < 0)
 	{
 		cout << "Error: The degree of the polynomial must be nonnegative." << endl;
@@ -202,7 +203,6 @@ int main()
 		}
 		else
 		{
-			double* poly = new double[deg + 2];
 			poly[0] = deg;
 			poly[1] = coeff;
 			for(int i = 2; i <= deg + 1; i++)
@@ -213,9 +213,20 @@ int main()
 	}
 	cout << "Enter x at which f(x), f'(x), and f''(x) will be evaluated -> ";
 	cin >> x;
-	cout << "f(x) = " << ptos(poly[deg + 2]));
-	cout << "f(" << x << ") = " << eval(poly, x);
-	double fPrime = differentiate(poly);
-	cout << fPrime << endl;
+	cout << endl;
+
+//	double* fPrime = differentiate(poly);
+//	double* fTwoPrime = differentiate(fPrime);
+	cout << "f(x) = " << ptos(poly) << endl;
+	cout << "f(" << x << ") = " << eval(poly, x) << endl;
+	cout << endl;
+
+//	cout << "f'(x) = " << ptos(fPrime) << endl;
+//	cout << "f'(" << x << ") = " << eval(fPrime, x) << endl;
+//	cout << endl;
+
+//	cout << "f''(x) = " << ptos(fTwoPrime) << endl;
+//	cout << "f''(" << x << ") = " << eval(fTwoPrime, x) << endl;
+//	cout << endl;
 	return 0;
 }
