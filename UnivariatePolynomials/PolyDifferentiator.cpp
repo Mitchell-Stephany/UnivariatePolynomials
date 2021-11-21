@@ -1,17 +1,21 @@
 /**
-* Describe what your program does.
-* @author YOUR NAME
+* This program will use dynamically allocated arrays to create and display a polynomial as well as
+* display the polynomials derivative and second derivative. The program will be also be able to evaluate
+* the function and the first and second derivtive at a given number.
+* @author Mitchell Stephany
 * <pre>
-* Date: DATE THE PROGRAM WAS LAST MODIFIED
+* Date: November 20, 2021
 * File: PolyDifferentiatior.cpp
-* Course: csc1253 Section x <br>
+* Course: csc1253 Section 3 <br>
 * Programming Project #: 4 <br>
 * Instructor: Dr. Duncan <br>
 * </pre>
 */
 
 #include <iostream>
+#include <sstream>
 using namespace std;
+
 /**
 * Gives a string representation of this polynomial in standard
 * form where zero terms, coefficients 1 or -1, and the exponents
@@ -47,7 +51,74 @@ using namespace std;
 */
 string ptos(const double poly[])
 {
-
+	stringstream sout;
+	int deg = poly[0];
+	if(deg == 0)
+	{
+		sout << poly[1];
+	}
+	else if(deg == 1)
+	{
+		if(poly[1] == 1)
+			sout << "x";
+		else if(poly[1] == -1)
+			sout << "-x";
+		else
+			sout << poly[1] << "x";
+		if(poly[2] != 0)
+		{
+			if(poly[2] > 0)
+			{
+				sout << "+" << poly[2];
+			}
+			else
+				sout << "-" << -1*poly[2];
+		}
+	}
+	else
+	{
+		if(poly[2] == -1)
+			sout << "-x^" << deg;
+		else if(poly[2] == 1)
+			sout << "x^" << deg;
+		else
+			sout << poly[2] << "x^" << deg;
+		int power = deg -1;
+		for(int i = 2;i <= deg - 1; i++)
+		{
+			if(poly[i] != 0)
+			{
+				if(poly[i] == 1)
+					sout << "+x^" << power;
+				else if(poly[i] == -1)
+					sout << "-x^" << power;
+				else if(poly[i] > 1)
+					sout << "+" << poly[i] << "x^" << power;
+				else
+					sout << "-" << -1*poly[i] << "x^" << power;
+			}
+			power = power - 1;
+		}
+		if(poly[deg] != 0)
+		{
+			if(poly[deg] == 1)
+				sout << "+x";
+			else if(poly[deg] == -1)
+				sout << "-x";
+			else if(poly[deg] > 1)
+				sout << "+" << poly[deg] << "x";
+			else
+				sout << "-" << -1*poly[deg] << "x";
+		}
+		if(poly[deg + 1] != 0)
+		{
+			if(poly[deg +1] > 0)
+				sout << "+" << poly[deg + 1];
+			else
+				sout << "-" << poly[deg + 1];
+		}
+	}
+	return sout.str();
 }
 
 /**
@@ -60,7 +131,12 @@ string ptos(const double poly[])
 */
 double eval(const double poly[], double x)
 {
-
+	double sum, n = poly[0];
+	for(int i = 1; i < n + 1; i++)
+	{
+		sum = sum * x + poly[i];
+	}
+	return sum;
 }
 
 /**
@@ -80,10 +156,44 @@ double eval(const double poly[], double x)
 */
 double* differentiate(const double poly[])
 {
-
+	double* deriv, deg;
+	if(deg == 0)
+	{
+		deriv = new double[2];
+	}
 }
 
 int main()
 {
-
+	double deg, x;
+	cout << "Enter the degree of the polynomial -> ";
+	cin >> deg;
+	if(deg < 0)
+	{
+		cout << "Error: The degree of the polynomial must be nonnegative." << endl;
+		return 0;
+	}
+	else
+	{
+		double coeff;
+		cout << "Enter the coefficients in order of descending powers -> ";
+		cin >> coeff;
+		if(coeff == 0 && deg > 0)
+		{
+			cout << "Error: Degree > 0 so the coefficient of the highest order term cannot be 0." << endl;
+		}
+		else
+		{
+			double* poly = new double[deg + 2];
+			poly[0] = deg;
+			poly[1] = coeff;
+			for(int i = 2; i <= deg + 1; i++)
+			{
+				cin >> poly[i];
+			}
+		}
+	}
+	cout << "Enter x at which f(x), f'(x), and f''(x) will be evaluated -> ";
+	cin >> x;
+	return 0;
 }
