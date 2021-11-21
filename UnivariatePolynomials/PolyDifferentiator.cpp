@@ -131,11 +131,13 @@ string ptos(const double poly[])
 */
 double eval(const double poly[], double x)
 {
-	double sum, n = poly[0];
+	double sum; double n = poly[0];
 	for(int i = 1; i <= n + 1; i++)
 	{
 		sum = sum * x + poly[i];
 	}
+	if(sum < 0.0000000000000001 && sum > 0)
+		sum = 0;
 	return sum;
 }
 
@@ -158,7 +160,6 @@ double* differentiate(const double poly[])
 {
 	double* deriv; int power;
 	int deg = poly[0];
-
 	if(deg == 0)
 	{
 		double* deriv = new double[2];
@@ -195,7 +196,7 @@ int main()
 	else
 	{
 		double coeff;
-		cout << "Enter the coefficients in order of descending powers -> ";
+		cout << "Enter the coefficients in the order of descending powers -> ";
 		cin >> coeff;
 		if(coeff == 0 && deg > 0)
 		{
